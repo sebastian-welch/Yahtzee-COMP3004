@@ -1,0 +1,187 @@
+package client;
+
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+public class ClientGUI extends JFrame{
+	private JLabel  rollNum   = new JLabel("Roll#: 1");
+	private JLabel[] dieValue = new JLabel[5];
+	private JLabel  score     = new JLabel("SCORESHEET");
+	private JLabel  section1  = new JLabel("SECTION 1");
+	private JLabel  section2  = new JLabel("SECTION 2");
+	
+	private JButton[] holdDie  = new JButton[5];
+	private JButton rollDice   = new JButton("Roll Dice");
+	private JButton aces       = new JButton("Aces");
+	private JButton twos       = new JButton("Twos");
+	private JButton threes     = new JButton("Threes");
+	private JButton fours      = new JButton("Fours");
+	private JButton fives      = new JButton("Fives");
+	private JButton sixes      = new JButton("Sixes");
+	private JButton threeKind  = new JButton("3 of a Kind");
+	private JButton fourKind   = new JButton("4 of a Kind");
+	private JButton fullHouse  = new JButton("fullHouse");
+	private JButton smStraight = new JButton("Sm. Straight");
+	private JButton lgStraight = new JButton("Lg. Straight");
+	private JButton yahtzee    = new JButton("YAHTZEE");
+	private JButton chance     = new JButton("CHANCE");
+	
+	public ClientGUI(Die[] gameDice){
+		super("Yahtzee");
+		for (int i = 0; i < dieValue.length; i++){
+			dieValue[i] = new JLabel("0");
+			holdDie[i] = new JButton("Lock");
+			holdDie[i].setEnabled(false);
+		}
+		
+		getContentPane().setLayout(new GridBagLayout());
+
+		setSize(new Dimension(520, 600));
+
+		GridBagConstraints c = new GridBagConstraints();
+		
+        c.insets = new Insets(5, 5, 5, 5);
+        
+        c.gridx = 0;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        getContentPane().add(holdDie[0], c);
+        
+        c.gridx = 1;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        getContentPane().add(holdDie[1], c);
+        
+        c.gridx = 2;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        getContentPane().add(holdDie[2], c);
+        
+        c.gridx = 3;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        getContentPane().add(holdDie[3], c);
+        
+        c.gridx = 4;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        getContentPane().add(holdDie[4], c);
+        
+        c.gridx = 5;
+        c.gridy = 0;
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        getContentPane().add(rollNum, c);
+        
+		c.gridx = 0;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(dieValue[0], c);
+		
+		c.gridx = 1;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(dieValue[1], c);
+
+		c.gridx = 2;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(dieValue[2], c);
+		
+		c.gridx = 3;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(dieValue[3], c);
+		
+		c.gridx = 4;
+		c.gridy = 1;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(dieValue[4], c);
+		
+		c.gridx = 5;
+		c.gridy = 1;
+		c.gridwidth = 2;
+		c.gridheight = 1;
+		getContentPane().add(rollDice, c);
+		
+		c.gridx = 0;
+		c.gridy = 2;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(score, c);
+		
+		c.gridx = 0;
+		c.gridy = 3;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(section1, c);
+		
+		c.gridx = 0;
+		c.gridy = 4;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(aces, c);
+		
+		c.gridx = 0;
+		c.gridy = 5;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(twos, c);
+		
+		c.gridx = 0;
+		c.gridy = 6;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(threes, c);
+		
+		c.gridx = 0;
+		c.gridy = 7;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(fours, c);
+		
+		c.gridx = 0;
+		c.gridy = 8;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(fives, c);
+		
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setVisible(true);
+	}
+	
+	public void setDice(Die[] newValues){
+		for(int i = 0; i < newValues.length; i++){
+			dieValue[i].setText(Integer.toString(newValues[i].getValue()));
+		}
+	}
+	public void setRollNum(int newRollNum){
+		if(newRollNum != -1)
+			rollNum.setText("Roll#: " + Integer.toString(newRollNum));
+		else{
+			rollNum.setText("No Rolls Left");
+			for(int i = 0; i < 5; i++)
+				holdDie[i].setEnabled(false);
+		}
+	}
+	
+	public JButton[] getLocks() { return holdDie; }
+	public JButton getRoller(){ return rollDice; }
+}

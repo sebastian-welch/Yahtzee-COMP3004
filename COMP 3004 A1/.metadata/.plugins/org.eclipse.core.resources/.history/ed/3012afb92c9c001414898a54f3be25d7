@@ -1,0 +1,12 @@
+package client;
+
+public class Scoresheet {
+	boolean ones;
+	boolean twos;
+	boolean threes;
+	boolean fours;
+	boolean fives;
+	boolean sixes;
+	
+	
+}

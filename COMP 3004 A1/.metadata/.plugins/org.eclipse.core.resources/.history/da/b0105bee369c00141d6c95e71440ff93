@@ -1,0 +1,273 @@
+package client;
+
+import java.util.Random;
+import javax.swing.JButton;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class GameLogic {
+	private Die[] die = new Die[5];
+	private int rollNum;
+	private int playerScore;
+	private ClientGUI gui;
+	private JButton diceRoller;
+	
+	private JButton aces;
+	private JButton twos;
+	private JButton threes;
+	private JButton fours;
+	private JButton fives;
+	private JButton sixes;
+	private JButton threeKind;
+	private JButton fourKind;
+	private JButton fullHouse;
+	private JButton smStraight;
+	private JButton lgStraight;
+	private JButton yahtzee;
+	private JButton chance;
+	boolean[] scoreState = new boolean[13];
+	
+	private JButton[] diceLock = new JButton[5];
+	
+	public GameLogic(){
+		for(int i = 0; i < die.length; i++)
+			die[i] = new Die();
+		for(int i = 0; i < scoreState.length; i++)
+			scoreState[i] = true;
+		
+		rollNum = 1;
+		playerScore = 0;
+		gui = new ClientGUI(die);
+		
+		diceRoller = gui.getRoller();
+		diceLock = gui.getLocks();
+		
+		aces = gui.getAces();
+		twos = gui.getTwos();
+		threes = gui.getThrees();
+		fours = gui.getFours();
+		fives = gui.getFives();
+		sixes = gui.getSixes();
+		threeKind = gui.getThreeKind();
+		fourKind = gui.getFourKind();
+		fullHouse = gui.getFullHouse();
+		smStraight = gui.getSmStraight();
+		lgStraight = gui.getLgStraight();
+		yahtzee = gui.getYahtzee();
+		chance = gui.getChance();
+		
+		//ROLLER ACTION LISTENER
+		diceRoller.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0) {
+				rollDice();
+			}
+		});
+		
+		//LOCK ACTION LISTENERS
+		//-------------------------------------------------
+		diceLock[0].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				if(die[0].getHeld() == false){
+					diceLock[0].setText("Unlock");
+					die[0].setHeld(true);
+				}
+				else{
+					diceLock[0].setText("Lock");
+					die[0].setHeld(false);
+				}
+			}
+		});
+		
+		diceLock[1].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				if(die[1].getHeld() == false){
+					diceLock[1].setText("Unlock");
+					die[1].setHeld(true);
+				}
+				else{
+					diceLock[1].setText("Lock");
+					die[1].setHeld(false);
+				}
+			}
+		});
+		
+		diceLock[2].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				if(die[2].getHeld() == false){
+					diceLock[2].setText("Unlock");
+					die[2].setHeld(true);
+				}
+				else{
+					diceLock[2].setText("Lock");
+					die[2].setHeld(false);
+				}
+			}
+		});
+		
+		diceLock[3].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				if(die[3].getHeld() == false){
+					diceLock[3].setText("Unlock");
+					die[3].setHeld(true);
+				}
+				else{
+					diceLock[3].setText("Lock");
+					die[3].setHeld(false);
+				}
+			}
+		});
+		
+		diceLock[4].addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				if(die[4].getHeld() == false){
+					diceLock[4].setText("Unlock");
+					die[4].setHeld(true);
+				}
+				else{
+					diceLock[4].setText("Lock");
+					die[4].setHeld(false);
+				}
+			}
+		});
+		//-------------------------------------------------
+		
+		//SCORE BUTTON ACTION LISTENERS
+		//-------------------------------------------------
+		aces.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[0] = false;
+				gui.setScoreStateFalse();
+			}
+		});
+		
+		twos.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[1] = false;
+				endRound();
+			}
+		});
+		
+		threes.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[2] = false;
+				endRound();
+			}
+		});
+		
+		fours.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[3] = false;
+				endRound();
+			}
+		});
+		
+		fives.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[4] = false;
+				endRound();
+			}
+		});
+		
+		sixes.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[5] = false;
+				endRound();
+			}
+		});
+		
+		threeKind.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[6] = false;
+				endRound();
+			}
+		});
+		
+		fourKind.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[7] = false;
+				endRound();
+			}
+		});
+		
+		fullHouse.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[8] = false;
+				endRound();
+			}
+		});
+		
+		smStraight.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[9] = false;
+				endRound();
+			}
+		});
+		
+		lgStraight.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[10] = false;
+				endRound();
+			}
+		});
+		
+		yahtzee.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[11] = false;
+				endRound();
+			}
+		});
+		
+		chance.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				scoreState[12] = false;
+				endRound();
+			}
+		});
+		//-------------------------------------------------
+	}
+	
+	//Initialize the dice
+	public void setupGame(){
+		for(int i = 0; i < die.length; i++){
+			die[i].setValue(0);
+			die[i].setHeld(false);
+		}
+	}
+	
+	//Roll the dice
+	public void rollDice(){
+		Random roll = new Random();
+		
+		if(rollNum == 1){
+			for(int i = 0; i < diceLock.length; i++){
+				diceLock[i].setEnabled(true);
+				gui.setScoreState(scoreState);
+			}
+		}
+		
+		for(int i = 0; i < 5; i++){
+			if (die[i].getHeld() == false)
+				die[i].setValue(roll.nextInt(6) + 1);
+		}
+		
+		rollNum++;
+		gui.setDice(die);
+		gui.setRollNum(rollNum);
+		
+		//Disable the dice roller
+		if(rollNum > 3){
+			diceRoller.setEnabled(false);
+			gui.setRollNum(-1);
+		}
+	}
+	
+	//Disable all buttons, end round after scoring
+	public void endRound(){
+		gui.setScoreStateFalse();
+		
+		for(int i = 0; i < diceLock.length; i++)
+			diceLock[i].setEnabled(false);
+		
+		diceRoller.setEnabled(false);
+	}
+}

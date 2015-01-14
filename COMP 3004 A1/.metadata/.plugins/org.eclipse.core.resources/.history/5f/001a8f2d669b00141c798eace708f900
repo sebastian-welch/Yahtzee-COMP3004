@@ -1,0 +1,6 @@
+package config;
+
+public class Config {
+	String ipAddress = "127.0.0.1";
+	int portID = 6677;
+}

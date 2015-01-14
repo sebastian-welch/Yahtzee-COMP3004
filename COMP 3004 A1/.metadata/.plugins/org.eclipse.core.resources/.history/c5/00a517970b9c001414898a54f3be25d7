@@ -1,0 +1,14 @@
+package client;
+
+public class Die {
+	private int value;
+	private boolean held;
+	
+	public Die(int val, boolean h){
+		value = val;
+		held = h;
+	}
+	
+	public int getValue(){ return value;}
+	public boolean getHeld(){ return held;}
+}

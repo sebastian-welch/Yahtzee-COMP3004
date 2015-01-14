@@ -1,0 +1,10 @@
+package client;
+import config.Config;
+
+public class Client {
+	try{
+		
+	}catch (Exception e){
+		System.out.println();
+	}
+}

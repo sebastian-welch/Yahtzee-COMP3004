@@ -1,0 +1,11 @@
+package client;
+
+public class Scoresheet {
+	boolean ones = true;
+	boolean twos = true;
+	boolean threes = true;
+	boolean fours = true;
+	boolean fives = true;
+	boolean sixes = true;
+	
+}

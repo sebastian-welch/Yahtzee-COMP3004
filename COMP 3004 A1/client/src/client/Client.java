@@ -1,0 +1,23 @@
+package client;
+
+import config.Config;
+import java.net.Socket;
+import java.io.IOException;
+
+public class Client {
+	public static void main(String[] args) throws IOException{
+		try{
+			Socket s = new Socket(Config.ipAddress, Config.portID);
+		
+			System.out.println("You connected to: " + Config.ipAddress);
+		
+			Director client = new Director(s);
+		
+			Thread t = new Thread(client);
+			t.start();
+		
+		}catch (Exception e){
+			System.out.println("Unable to connect to the server.");
+		}
+	}
+}

@@ -1,0 +1,17 @@
+package client;
+
+public class Scoresheet {
+	boolean ones = true;
+	boolean twos = true;
+	boolean threes = true;
+	boolean fours = true;
+	boolean fives = true;
+	boolean sixes = true;
+	boolean threeKind = true;
+	boolean fourKind = true;
+	boolean fullHouse = true;
+	boolean smStraight = true;
+	boolean lgStraight = true;
+	boolean yahtzee = true;
+	boolean chance = true;
+}

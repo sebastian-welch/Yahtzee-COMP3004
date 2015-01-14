@@ -1,0 +1,26 @@
+
+package server;
+
+import java.net.Socket;
+import java.util.Scanner;
+import java.io.InputStream;
+import java.io.PrintWriter;
+
+public class Director implements Runnable{
+	
+	private Socket socket;
+	
+	public Director(Socket s){
+		socket = s;
+	}
+	
+	public void run(){
+		try{
+			InputStream s = socket.getInputStream();
+			
+		}catch(Exception e){
+			System.out.println("Error: ");
+			e.printStackTrace();
+		}
+	}
+}

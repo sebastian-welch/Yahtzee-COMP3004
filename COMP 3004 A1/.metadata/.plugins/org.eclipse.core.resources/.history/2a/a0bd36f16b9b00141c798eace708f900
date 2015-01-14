@@ -1,0 +1,6 @@
+package client;
+import config.Config;
+
+public class Client {
+	private final static int port = Config.portID;
+}

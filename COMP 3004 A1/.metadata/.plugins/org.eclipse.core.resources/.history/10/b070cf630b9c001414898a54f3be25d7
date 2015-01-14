@@ -1,0 +1,11 @@
+package client;
+
+public class Die {
+	int value;
+	boolean held;
+	
+	public void Die(int val, boolean h){
+		value = val;
+		held = h;
+	}
+}
