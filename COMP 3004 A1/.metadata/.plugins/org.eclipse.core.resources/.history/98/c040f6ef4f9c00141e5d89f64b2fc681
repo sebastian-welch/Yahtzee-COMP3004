@@ -1,0 +1,47 @@
+
+package server;
+
+import java.net.Socket;
+import java.util.Scanner;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+
+public class Director implements Runnable{
+	
+	private ArrayList<Socket> socket;
+	
+	public Director(ArrayList<Socket> s){
+		socket = s;
+	}
+	
+	public void run(){
+		try{
+			Scanner[] in = new Scanner[socket.size()];
+			PrintWriter[] out = new PrintWriter[socket.size()];
+			
+			for(int i = 0; i < socket.size(); i++){
+				in[i] = socket.get(0).getInputStream();
+				(socket.get(0).getOutputStream());
+			}
+			
+			while(true){
+				String scoreStatus = in.nextLine();
+				out.println(scoreStatus);
+				out.flush();
+			}
+			
+		}catch(IOException e){
+			System.out.println("Error: ");
+			e.printStackTrace();
+			System.out.println("Connection dropped, closing socket connection.");
+			/*try {
+				socket[0].close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}*/
+			
+		}
+	}
+}

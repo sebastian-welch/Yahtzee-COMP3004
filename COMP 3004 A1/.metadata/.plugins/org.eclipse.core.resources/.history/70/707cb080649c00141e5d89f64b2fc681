@@ -1,0 +1,9 @@
+package server;
+
+public class Scorecard {
+	boolean aces;
+	boolean twos;
+	boolean threes;
+	boolean fours;
+	
+}

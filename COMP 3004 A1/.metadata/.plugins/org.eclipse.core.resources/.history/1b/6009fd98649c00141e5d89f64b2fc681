@@ -1,0 +1,5 @@
+package server;
+
+public class Scorecard {
+	boolean[] scoreState = new boolean[13];
+}

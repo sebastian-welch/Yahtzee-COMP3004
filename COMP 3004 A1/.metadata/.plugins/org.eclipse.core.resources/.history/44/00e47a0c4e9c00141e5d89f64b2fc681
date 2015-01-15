@@ -1,0 +1,37 @@
+package server;
+
+import java.io.IOException;
+
+import config.Config;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+	
+	public static void main(String[] args) throws IOException{
+		try{
+			ServerSocket server = new ServerSocket(Config.portID);
+			System.out.println("Waiting for a client to connect.");
+			int i = 0;
+			Socket[] s = new Socket[4];
+			
+			while(true){
+				s[i] = server.accept();	
+				
+				System.out.println("Client connected from: " + 
+						s.getLocalAddress().getHostName());
+			}
+				
+			Director d = new Director(s);
+			Thread t = new Thread(d);
+			System.out.println("New thread");
+			t.start();
+			
+			
+		}catch (Exception e){
+			System.out.println("Error: ");
+			e.printStackTrace();
+		}
+	}
+}

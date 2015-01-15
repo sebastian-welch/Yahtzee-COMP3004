@@ -1,0 +1,26 @@
+package server;
+
+public class Scorecard {
+	boolean[] scoreState = new boolean[13];
+	
+	public Scorecard(){
+		for(int i = 0; i < scoreState.length; i++)
+			scoreState[i] = false;
+	}
+	
+	public boolean[] deserializeScoreLock(String scoreStatus){
+		boolean[] newScoreStatus = new boolean[13];
+		String[] splitScoreStatus = new String[13];
+		splitScoreStatus = scoreStatus.split(",");
+		
+		for(int i = 0; i < splitScoreStatus.length; i++){
+			System.out.println(splitScoreStatus[0]);
+			if(splitScoreStatus[i].equals("true"))
+				newScoreStatus[i] = true;
+			else
+				newScoreStatus[i] = false;
+		}
+		setScoreStatus(newScoreStatus);
+		return newScoreStatus;
+	}
+}

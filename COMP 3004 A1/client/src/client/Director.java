@@ -14,13 +14,20 @@ public class Director implements Runnable{
 	
 	public void run(){
 		try{
-			GameLogic game = new GameLogic();
 			PrintWriter out = new PrintWriter(socket.getOutputStream());
 			Scanner in = new Scanner(socket.getInputStream());
+			GameLogic game = new GameLogic(out);
 			
 			while(true){
-				out.println(game.serializeScoreLock(game.getScoreStatus()));
-				out.flush();
+				/*System.out.println(game.getRoundStatus());
+				if(game.getRoundStatus() == true && game.getScoreSent() == false){
+					out.println(game.getScoreStatus());
+					out.flush();
+					game.setScoreSent(true);
+				}
+				System.out.println("Test");*/
+				if(in.hasNextLine() == true)
+					game.setScoreStatus(game.deserializeScoreLock(in.nextLine()));
 			}
 		}catch(Exception e){
 			System.out.println("Error:");
