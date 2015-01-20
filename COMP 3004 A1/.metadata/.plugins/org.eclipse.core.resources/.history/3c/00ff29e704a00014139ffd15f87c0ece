@@ -1,0 +1,67 @@
+package server;
+
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class serverGUI extends JFrame{
+	private JButton twoPlayer = new JButton("2");
+	private JButton threePlayer = new JButton("3");
+	private JButton fourPlayer = new JButton("4");
+	private int numPlayers = 0;
+	boolean startGame = false;
+	
+	public serverGUI(){
+		super("Yahtzee Server");
+		
+		getContentPane().setLayout(new GridBagLayout());
+		
+		setSize(new Dimension(100, 200));
+		
+		GridBagConstraints c = new GridBagConstraints();
+		
+		c.insets = new Insets(5, 5, 5, 5);
+		
+		twoPlayer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				numPlayers = 2;
+				startGame = true;
+			}
+		});
+		threePlayer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				numPlayers = 3;
+				startGame = true;
+			}
+		});
+		fourPlayer.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent arg0){
+				numPlayers = 4;
+				startGame = true;
+			}
+		});
+		
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 1;
+		c.gridheight = 1;
+		getContentPane().add(twoPlayer, c);
+		
+		c.gridy = 2;
+		getContentPane().add(threePlayer, c);
+		
+		c.gridy = 3;
+		getContentPane().add(fourPlayer, c);
+		
+		setResizable(false);
+		setVisible(true);
+	}
+	
+	public boolean getStartGame(){ return startGame; }
+}

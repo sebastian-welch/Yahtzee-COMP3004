@@ -10,11 +10,16 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class ClientGUI extends JFrame{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3539956299820039412L;
 	private JLabel  rollNum   = new JLabel("Roll#: 1");
 	private JLabel[] dieValue = new JLabel[5];
 	private JLabel  score     = new JLabel("SCORE POINTS");
 	private JLabel  section1  = new JLabel("SECTION 1");
 	private JLabel  section2  = new JLabel("SECTION 2");
+	private JLabel  playerScore = new JLabel("Your Score: 0");
 	
 	private JButton[] holdDie  = new JButton[5];
 	private JButton rollDice   = new JButton("Roll Dice");
@@ -218,6 +223,10 @@ public class ClientGUI extends JFrame{
 		c.gridheight = 1;
 		getContentPane().add(chance, c);
 		
+		c.gridx = 2;
+		c.gridy = 3;
+		getContentPane().add(playerScore, c);
+		
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
@@ -285,4 +294,8 @@ public class ClientGUI extends JFrame{
 	public JButton getChance(){ return chance; }
 	public JButton[] getLocks() { return holdDie; }
 	public JButton getRoller(){ return rollDice; }
+	
+	public void  setScore(int newScore){ 
+		playerScore.setText("Your Score: " + Integer.toString(newScore));
+	}
 }

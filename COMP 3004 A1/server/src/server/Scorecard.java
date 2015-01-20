@@ -2,10 +2,15 @@ package server;
 
 public class Scorecard {
 	private boolean[] scoreState = new boolean[13];
+	private boolean[] roundState;
 	
-	public Scorecard(){
+	public Scorecard(int numPlayers){
+		roundState = new boolean[numPlayers];
+		
+		for(int i = 0; i < roundState.length; i++)
+			roundState[i] = false;
 		for(int i = 0; i < scoreState.length; i++)
-			scoreState[i] = false;
+			scoreState[i] = true;
 	}
 	
 	public String serializeScoreLock(boolean[] scoreStatus){
@@ -21,14 +26,18 @@ public class Scorecard {
 		return lock;
 	}
 	
+	//Compares the current status to the new statuses, never change from false to true
 	public boolean[] deserializeScoreLock(String scoreStatus){
 		boolean[] newScoreStatus = new boolean[13];
-		String[] splitScoreStatus = new String[13];
-		splitScoreStatus = scoreStatus.split(",");
+		String[] splitScoreStatus = new String[14];
+		String[] splitCurrentStatus = new String[14];
+		String currentScoreState =  serializeScoreLock(scoreState);
 		
-		for(int i = 0; i < splitScoreStatus.length; i++){
-			System.out.println(splitScoreStatus[0]);
-			if(splitScoreStatus[i].equals("true"))
+		splitScoreStatus = scoreStatus.split(",");
+		splitCurrentStatus = currentScoreState.split(",");
+		
+		for(int i = 0; i < 13; i++){
+			if(splitScoreStatus[i].equals("true") && splitCurrentStatus[i].equals("true"))
 				newScoreStatus[i] = true;
 			else
 				newScoreStatus[i] = false;
@@ -36,4 +45,6 @@ public class Scorecard {
 		scoreState = newScoreStatus;
 		return newScoreStatus;
 	}
+	
+	public String getScoreStatus() { return serializeScoreLock(scoreState); }
 }

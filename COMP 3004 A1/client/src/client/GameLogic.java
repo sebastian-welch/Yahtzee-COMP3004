@@ -6,8 +6,8 @@ import javax.swing.JButton;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.PrintWriter;
-import java.util.Scanner;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 
 public class GameLogic {
 	private Die[] die = new Die[5];
@@ -16,29 +16,17 @@ public class GameLogic {
 	private ClientGUI gui;
 	private JButton diceRoller;
 	
-	private JButton aces;
-	private JButton twos;
-	private JButton threes;
-	private JButton fours;
-	private JButton fives;
-	private JButton sixes;
-	private JButton threeKind;
-	private JButton fourKind;
-	private JButton fullHouse;
-	private JButton smStraight;
-	private JButton lgStraight;
-	private JButton yahtzee;
-	private JButton chance;
-	boolean[] scoreState = new boolean[13];
+	private boolean[] scoreState = new boolean[13];
 	
-	boolean endRound = false;
-	boolean allowScoring = false;
+	private boolean endRound = false;
+	private boolean allowScoring = false;
 	
 	private JButton[] diceLock = new JButton[5];
 	
-	PrintWriter out;
+	private Request serverRequest = new Request();
+	private ObjectOutputStream out;
 	
-	public GameLogic(PrintWriter o){
+	public GameLogic(ObjectOutputStream o){
 		out = o;
 		
 		for(int i = 0; i < die.length; i++)
@@ -52,20 +40,6 @@ public class GameLogic {
 		
 		diceRoller = gui.getRoller();
 		diceLock = gui.getLocks();
-		
-		aces = gui.getAces();
-		twos = gui.getTwos();
-		threes = gui.getThrees();
-		fours = gui.getFours();
-		fives = gui.getFives();
-		sixes = gui.getSixes();
-		threeKind = gui.getThreeKind();
-		fourKind = gui.getFourKind();
-		fullHouse = gui.getFullHouse();
-		smStraight = gui.getSmStraight();
-		lgStraight = gui.getLgStraight();
-		yahtzee = gui.getYahtzee();
-		chance = gui.getChance();
 		
 		//ROLLER ACTION LISTENER
 		diceRoller.addActionListener(new ActionListener(){
@@ -144,91 +118,115 @@ public class GameLogic {
 		
 		//SCORE BUTTON ACTION LISTENERS
 		//-------------------------------------------------
-		aces.addActionListener(new ActionListener(){
+		gui.getAces().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
+				for(int i = 0; i < die.length; i++){
+					if(die[i].getValue() == 1)
+						playerScore += 1;
+				}
 				scoreState[0] = false;
 				endRound();
 			}
 		});
 		
-		twos.addActionListener(new ActionListener(){
+		gui.getTwos().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
+				for(int i = 0; i < die.length; i++){
+					if(die[i].getValue() == 2)
+						playerScore += 2;
+				}
 				scoreState[1] = false;
 				endRound();
 			}
 		});
 		
-		threes.addActionListener(new ActionListener(){
+		gui.getThrees().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
+				for(int i = 0; i < die.length; i++){
+					if(die[i].getValue() == 3)
+						playerScore += 3;
+				}
 				scoreState[2] = false;
 				endRound();
 			}
 		});
 		
-		fours.addActionListener(new ActionListener(){
+		gui.getFours().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
+				for(int i = 0; i < die.length; i++){
+					if(die[i].getValue() == 4)
+						playerScore += 4;
+				}
 				scoreState[3] = false;
 				endRound();
 			}
 		});
 		
-		fives.addActionListener(new ActionListener(){
+		gui.getFives().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
+				for(int i = 0; i < die.length; i++){
+					if(die[i].getValue() == 5)
+						playerScore += 5;
+				}
 				scoreState[4] = false;
 				endRound();
 			}
 		});
 		
-		sixes.addActionListener(new ActionListener(){
+		gui.getSixes().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
+				for(int i = 0; i < die.length; i++){
+					if(die[i].getValue() == 6)
+						playerScore += 6;
+				}
 				scoreState[5] = false;
 				endRound();
 			}
 		});
 		
-		threeKind.addActionListener(new ActionListener(){
+		gui.getThreeKind().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				scoreState[6] = false;
 				endRound();
 			}
 		});
 		
-		fourKind.addActionListener(new ActionListener(){
+		gui.getFourKind().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				scoreState[7] = false;
 				endRound();
 			}
 		});
 		
-		fullHouse.addActionListener(new ActionListener(){
+		gui.getFullHouse().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				scoreState[8] = false;
 				endRound();
 			}
 		});
 		
-		smStraight.addActionListener(new ActionListener(){
+		gui.getSmStraight().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				scoreState[9] = false;
 				endRound();
 			}
 		});
 		
-		lgStraight.addActionListener(new ActionListener(){
+		gui.getLgStraight().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				scoreState[10] = false;
 				endRound();
 			}
 		});
 		
-		yahtzee.addActionListener(new ActionListener(){
+		gui.getYahtzee().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				scoreState[11] = false;
 				endRound();
 			}
 		});
 		
-		chance.addActionListener(new ActionListener(){
+		gui.getChance().addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent arg0){
 				scoreState[12] = false;
 				endRound();
@@ -275,31 +273,24 @@ public class GameLogic {
 	
 	//Disable all buttons, end round after scoring
 	public void endRound(){
-		gui.setScoreStateFalse();
+		try{
+			gui.setScoreStateFalse();
+			gui.setScore(playerScore);
 		
-		for(int i = 0; i < diceLock.length; i++)
-			diceLock[i].setEnabled(false);
+			for(int i = 0; i < diceLock.length; i++)
+				diceLock[i].setEnabled(false);
 		
-		diceRoller.setEnabled(false);
-		endRound = true;
-		out.println(getScoreStatus());
-		out.flush();
-		allowScoring = false;
+			diceRoller.setEnabled(false);
+			endRound = true;
+			out.writeObject(getGameStatus());
+			out.flush();
+			allowScoring = false;
+		}catch (IOException e){
+			e.printStackTrace();
+		}
 	}
 	
 	//For sending score board state to server
-	public String serializeScoreLock(boolean[] scoreStatus){
-		String lock = "";
-		
-		for(int i = 0; i < scoreStatus.length; i++){
-			if (scoreStatus[i])
-				lock += "true,";
-			else
-				lock += "false,";
-		}
-		lock = lock.substring(0, lock.length() - 1);
-		return lock;
-	}
 	
 	//Translating score board state from server
 	public boolean[] deserializeScoreLock(String scoreStatus){
@@ -308,7 +299,6 @@ public class GameLogic {
 		splitScoreStatus = scoreStatus.split(",");
 		
 		for(int i = 0; i < splitScoreStatus.length; i++){
-			System.out.println(splitScoreStatus[0]);
 			if(splitScoreStatus[i].equals("true"))
 				newScoreStatus[i] = true;
 			else
@@ -317,7 +307,8 @@ public class GameLogic {
 		setScoreStatus(newScoreStatus);
 		return newScoreStatus;
 	}
-	public String getScoreStatus() { return serializeScoreLock(scoreState); }
+	
+	public Request getGameStatus() { return serverRequest; }
 	public boolean getRoundStatus(){return endRound; }
 	
 	public void setScoreStatus(boolean[] newScoreStatus){

@@ -1,0 +1,8 @@
+package server;
+
+public class serverGUI {
+	private JButton onePlayer = new JButton("1");
+	public serverGUI(){
+		
+	}
+}

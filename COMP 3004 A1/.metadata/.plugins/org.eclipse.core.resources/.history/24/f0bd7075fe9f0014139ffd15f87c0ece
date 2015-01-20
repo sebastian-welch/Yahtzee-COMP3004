@@ -1,0 +1,10 @@
+package server;
+
+import javax.swing.JButton;
+
+public class serverGUI {
+	private JButton onePlayer = new JButton("1");
+	public serverGUI(){
+		
+	}
+}

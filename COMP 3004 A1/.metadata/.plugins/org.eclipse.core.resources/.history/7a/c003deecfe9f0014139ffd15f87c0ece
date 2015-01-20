@@ -1,0 +1,21 @@
+package server;
+
+import java.awt.GridBagLayout;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+public class serverGUI extends JFrame{
+	private JButton onePlayer = new JButton("1");
+	private JButton twoPlayer = new JButton("2");
+	private JButton threePlayer = new JButton("3");
+	private JButton fourPlayer = new JButton("4");
+	
+	public serverGUI(){
+		super("Yahtzee Server");
+		
+		getContentPane().setLayout(new GridBagLayout());
+		
+		setSize(new Dimension(100, 500));
+	}
+}

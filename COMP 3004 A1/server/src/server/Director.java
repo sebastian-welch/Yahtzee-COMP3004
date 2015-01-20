@@ -9,11 +9,12 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 
 public class Director implements Runnable{
-	
+	private int playerNum;
 	private Socket socket;
 	private Scorecard scorecard;
 	
-	public Director(Socket s, Scorecard score){
+	public Director(int player, Socket s, Scorecard score){
+		playerNum = player;
 		socket = s;
 		scorecard = score;
 	}
@@ -24,27 +25,26 @@ public class Director implements Runnable{
 			PrintWriter out = new PrintWriter(socket.getOutputStream());
 			
 			while(true){
+				String scoreStatus;
 				if(in.hasNext()){
-					String scoreStatus = in.nextLine();
+					scoreStatus = in.nextLine();
 					scorecard.deserializeScoreLock(scoreStatus);
 					
-					System.out.println(scoreStatus);
-					
+					scoreStatus = scorecard.getScoreStatus();
 					out.println(scoreStatus);
 					out.flush();
 					}
 			}
 			
-		}catch(Exception e){
+		}catch(IOException e){
 			System.out.println("Error: ");
 			e.printStackTrace();
 			System.out.println("Connection dropped, closing socket connection.");
-			/*try {
-				socket[0].close();
+			try {
+				socket.close();
 			} catch (IOException e1) {
 				e1.printStackTrace();
-			}*/
-			
+			}			
 		}
 	}
 }

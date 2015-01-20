@@ -1,0 +1,48 @@
+package server;
+
+import java.util.ArrayList;
+
+public class Scorecard {
+	private boolean[] scoreState = new boolean[13];
+	private ArrayList<Boolean> roundState = new ArrayList<>();
+	
+	public Scorecard(){
+		for(int i = 0; i < scoreState.length; i++)
+			scoreState[i] = true;
+	}
+	
+	public String serializeScoreLock(boolean[] scoreStatus){
+		String lock = "";
+		
+		for(int i = 0; i < scoreStatus.length; i++){
+			if (scoreStatus[i])
+				lock += "true,";
+			else
+				lock += "false,";
+		}
+		lock = lock.substring(0, lock.length() - 1);
+		return lock;
+	}
+	
+	//Compares the current status to the new statuses, never change from false to true
+	public boolean[] deserializeScoreLock(String scoreStatus){
+		boolean[] newScoreStatus = new boolean[13];
+		String[] splitScoreStatus = new String[13];
+		String[] splitCurrentStatus = new String[13];
+		String currentScoreState =  serializeScoreLock(scoreState);
+		
+		splitScoreStatus = scoreStatus.split(",");
+		splitCurrentStatus = currentScoreState.split(",");
+		
+		for(int i = 0; i < splitScoreStatus.length; i++){
+			if(splitScoreStatus[i].equals("true") && splitCurrentStatus[i].equals("true"))
+				newScoreStatus[i] = true;
+			else
+				newScoreStatus[i] = false;
+		}
+		scoreState = newScoreStatus;
+		return newScoreStatus;
+	}
+	
+	public String getScoreStatus() { return serializeScoreLock(scoreState); }
+}

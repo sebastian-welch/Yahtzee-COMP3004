@@ -1,0 +1,46 @@
+package server;
+
+import java.io.IOException;
+
+import config.Config;
+
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class Server {
+	public static void main(String[] args) throws IOException{
+		try{
+			ServerSocket server = new ServerSocket(Config.portID);
+			Scorecard scorecard = new Scorecard();
+			serverGUI gui = new serverGUI();
+			
+			while(gui.getStartGame() == false){
+				if(gui.getStartGame() == true)
+					break;
+				System.out.println("Test");
+			}
+			
+			System.out.println("Waiting for a client to connect.");
+			int i = 0;
+			Socket s = new Socket();
+			
+			while(i < 4){
+				s = server.accept();	
+				
+				System.out.println("Client connected from: " + 
+						s.getLocalAddress().getHostName());
+				i++;
+				
+				Director d = new Director(i, s, scorecard);
+				Thread t = new Thread(d);
+				t.start();
+			}
+			
+			server.close();
+			
+		}catch (Exception e){
+			System.out.println("Error: ");
+			e.printStackTrace();
+		}
+	}
+}
